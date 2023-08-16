@@ -11,11 +11,11 @@
 # ввода имени и электронной почты.
 
 import logging
-from flask import Flask, Response, redirect, render_template, request, url_for, make_response, session
+from flask import Flask, redirect, render_template, request, make_response
 
 
 app = Flask(__name__)
-app.secret_key = b'5f214cacbd30c2ae4784b520f17912ae0d5d8c16ae98128e3f549546221265e4'
+#app.secret_key = b'5f214cacbd30c2ae4784b520f17912ae0d5d8c16ae98128e3f549546221265e4'
 logger = logging.getLogger(__name__)
 
 
@@ -25,13 +25,7 @@ def index():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
-    
-        # session['username'] = request.form.get('username') or 'NoName'
-        # session['mail'] = request.form.get('mail')
-        # response.set_cookie('username', request.form.get('username'))
-        # response.set_cookie('e-mail', request.form.get('mail'))
-        
+def login():        
     name = request.form['name']
     mail = request.form['email']
     response = make_response(redirect('/greet'))

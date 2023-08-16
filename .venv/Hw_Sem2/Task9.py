@@ -21,28 +21,39 @@ logger = logging.getLogger(__name__)
 
 @app.route('/')
 def index():
-    if 'username' in session:
-        return render_template('hello_name.html', name=session["username"])
-    else:
-        return redirect(url_for('login'))
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        session['username'] = request.form.get('username') or 'NoName'
-        session['mail'] = request.form.get('mail')
-        response = make_response("Cookie установлен")
-        response.set_cookie('username', request.form.get('username'))
-        response.set_cookie('e-mail', request.form.get('mail'))
-        return redirect(url_for('index'))
-    return render_template('base.html')
+    
+        # session['username'] = request.form.get('username') or 'NoName'
+        # session['mail'] = request.form.get('mail')
+        # response.set_cookie('username', request.form.get('username'))
+        # response.set_cookie('e-mail', request.form.get('mail'))
+        
+    name = request.form['name']
+    mail = request.form['email']
+    response = make_response(redirect('/greet'))
+    response.set_cookie('user_name', name)
+    response.set_cookie('e-mail', mail)
+    return response
+
+
+@app.route('/greet/')
+def greet():
+    user_name = request.cookies.get('user_name')
+    if user_name:
+        return render_template('greet.html', user_name=user_name)
+    return redirect('/')
 
 
 @app.route('/logout/')
 def logout():
-    session.pop('username', None)
-    return redirect(url_for('index'))
+    responce = make_response(redirect('/'))
+    responce.delete_cookie('user_name')
+    responce.delete_cookie('e-mail')
+    return responce
 
 
 if __name__ == '__main__':

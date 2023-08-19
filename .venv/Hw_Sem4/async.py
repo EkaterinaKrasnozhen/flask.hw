@@ -1,7 +1,7 @@
 import asyncio
 import aiohttp
 import time
-
+from sys import argv
 
 urls = ['https://w.forfun.com/fetch/3e/3e6d5f96bb0a293b7eb3866e91f2fd32.jpeg',
 'https://w.forfun.com/fetch/ca/ca3c70c3111dde977a73ebf659a9ccc2.jpeg',
@@ -23,7 +23,7 @@ async def download(url):
         print(f"Downloaded {url} in {time.time()-start_time:.2f} seconds")
     
 
-async def main():
+async def main(urls):
     tasks = []
     for url in urls:
         task = asyncio.ensure_future(download(url))
@@ -34,5 +34,8 @@ async def main():
 start_time = time.time()
 
 if __name__ == '__main__':
+    urls = argv[1:]
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    loop.run_until_complete(main(urls))
+    
+    

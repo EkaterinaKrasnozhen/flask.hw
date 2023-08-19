@@ -14,6 +14,7 @@
 import requests
 import threading
 import time
+from sys import argv
 
 urls = ['https://w.forfun.com/fetch/3e/3e6d5f96bb0a293b7eb3866e91f2fd32.jpeg',
 'https://w.forfun.com/fetch/ca/ca3c70c3111dde977a73ebf659a9ccc2.jpeg',
@@ -34,11 +35,14 @@ def download(url):
 
 threads = []
 start_time = time.time()
-
-for url in urls:
-    thread = threading.Thread(target=download, args=[url])
-    threads.append(thread)
-    thread.start()
     
-for thread in threads:
-    thread.join()
+
+if __name__ == '__main__':
+    urls = argv[1:]
+    for url in urls:
+        thread = threading.Thread(target=download, args=[url])
+        threads.append(thread)
+        thread.start()
+    
+    for thread in threads:
+        thread.join()

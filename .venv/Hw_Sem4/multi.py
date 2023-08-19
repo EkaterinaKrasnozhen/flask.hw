@@ -14,7 +14,7 @@
 import requests
 from multiprocessing import Process, Pool
 import time
-
+from sys import argv
 
 urls = ['https://w.forfun.com/fetch/3e/3e6d5f96bb0a293b7eb3866e91f2fd32.jpeg',
 'https://w.forfun.com/fetch/ca/ca3c70c3111dde977a73ebf659a9ccc2.jpeg',
@@ -37,6 +37,7 @@ processes = []
 start_time = time.time()
 
 if __name__ == '__main__':
+    urls = argv[1:]
     for url in urls:
         process = Process(target=download, args=(url,))
         processes.append(process)
